@@ -1,2 +1,2 @@
-recursive-include planet/templates
-recursive-include planet/media
+recursive-include planet/templates *
+recursive-include planet/media *
