@@ -1,0 +1,4 @@
+build/
+dist/
+django_planet.egg-info/
+setuptools_git*egg

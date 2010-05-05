@@ -6,7 +6,7 @@ setup(
     name='django-planet',
     version=version,
     description="A django app to create a rss planet",
-    url='http://github.com/stereosteve/django-planet',
+    url='http://github.com/akariv/django-planet',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
