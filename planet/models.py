@@ -204,7 +204,7 @@ class Post(models.Model):
     title = models.CharField(_("Title"), max_length=255, db_index=True)
     authors = models.ManyToManyField("planet.Author", through=PostAuthorData)
     url = models.URLField(_("Url"), db_index=True)
-    guid = models.CharField(_("Guid"), max_length=200, db_index=True)
+    guid = models.Field(_("Guid"), max_length=1024, db_index=True)
     content = models.TextField(_("Content"))
     comments_url = models.URLField(_("Comments URL"), blank=True, null=True)
 
