@@ -193,7 +193,7 @@ def process_feed(feed_url, create=False):
                             else:
                                 Tag.objects.add_tag(post, '"%s"' % tag_name)
                         except AttributeError, e:
-                            print "Ignoring tag error: %s" % e
+                            print u"Ignoring tag error: %s" % e
                     # create post links...
                     for link_dict in entry.get("links", []):
                         post_link, created = PostLink.objects.get_or_create(
