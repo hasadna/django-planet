@@ -38,13 +38,15 @@ from planet.managers import (FeedManager, AuthorManager, BlogManager,
     EnclosureManager)
 
 
+URL_MAX_LENGTH = 1024
+
 class Blog(models.Model):
     """
     A model to store primary info about a blog or website that which feed or
     feeds are aggregated to our planet
     """
     title = models.CharField(_("title"), max_length=255, blank=True, db_index=True)
-    url = models.URLField(_("Url"), unique=True, db_index=True)
+    url = models.URLField(_("Url"), unique=True, db_index=True, max_length=URL_MAX_LENGTH)
     date_created = models.DateTimeField(_("Date created"), auto_now_add=True)
 
     site_objects = BlogManager()
@@ -63,7 +65,7 @@ class Generator(models.Model):
     The software or website that has built a feed
     """
     name = models.CharField(_("Name"), max_length=100)
-    link = models.URLField(_("Url"), blank=True, null=True)
+    link = models.URLField(_("Url"), blank=True, null=True, max_length=URL_MAX_LENGTH)
     version = models.CharField(_("Version"), max_length=5, blank=True, null=True)
 
     site_objects = GeneratorManager()
@@ -105,9 +107,9 @@ class Feed(models.Model):
     guid = models.CharField(_("Global Unique Identifier"), max_length=255,
         blank=True, null=True, db_index=True)
     # icon attribute from Feedparser's Feed object
-    icon_url = models.URLField(_("Icon URL"), blank=True, null=True)
+    icon_url = models.URLField(_("Icon URL"), blank=True, null=True, max_length=URL_MAX_LENGTH)
     # image attribute from Feedparser's Feed object
-    image_url = models.URLField(_("Image URL"), blank=True, null=True)
+    image_url = models.URLField(_("Image URL"), blank=True, null=True, max_length=URL_MAX_LENGTH)
 
     # etag attribute from Feedparser's Feed object
     etag = models.CharField(_("Etag"), max_length=50, blank=True,
@@ -203,10 +205,10 @@ class Post(models.Model):
     feed = models.ForeignKey("planet.Feed", null=False, blank=False)
     title = models.CharField(_("Title"), max_length=255, db_index=True)
     authors = models.ManyToManyField("planet.Author", through=PostAuthorData)
-    url = models.URLField(_("Url"), db_index=True)
-    guid = models.CharField(_("Guid"), max_length=1024, db_index=True)
+    url = models.URLField(_("Url"), db_index=True, max_length=URL_MAX_LENGTH)
+    guid = models.CharField(_("Guid"), max_length=URL_MAX_LENGTH, db_index=True)
     content = models.TextField(_("Content"))
-    comments_url = models.URLField(_("Comments URL"), blank=True, null=True)
+    comments_url = models.URLField(_("Comments URL"), blank=True, null=True, max_length=URL_MAX_LENGTH)
 
     date_modified = models.DateTimeField(_("Date modified"), null=True,
         blank=True, db_index=True)
@@ -240,7 +242,7 @@ class Author(models.Model):
     name = models.CharField(_("Name"), max_length=255, null=True,
         blank=True, db_index=True)
     email = models.EmailField(_("Author email"), blank=True)
-    profile_url = models.URLField(_("Profile URL"), blank=True, null=True)
+    profile_url = models.URLField(_("Profile URL"), blank=True, null=True, max_length=URL_MAX_LENGTH)
 
     site_objects = AuthorManager()
     objects = models.Manager()
@@ -261,7 +263,7 @@ class FeedLink(models.Model):
     feed = models.ForeignKey("planet.Feed")
     rel = models.CharField(_("Relation"), max_length=50, db_index=True)
     mime_type = models.CharField(_("MIME type"), max_length=50, db_index=True)
-    link = models.URLField(_("Url"), max_length=500, db_index=True)
+    link = models.URLField(_("Url"), db_index=True, max_length=URL_MAX_LENGTH)
 
     site_objects = FeedLinkManager()
     objects = models.Manager()
@@ -283,7 +285,7 @@ class PostLink(models.Model):
     post = models.ForeignKey("planet.Post")
     rel = models.CharField(_("Relation"), max_length=50, db_index=True)
     mime_type = models.CharField(_("MIME type"), max_length=50, db_index=True)
-    link = models.URLField(_("Url"), max_length=500, db_index=True)
+    link = models.URLField(_("Url"), db_index=True, max_length=URL_MAX_LENGTH)
     title = models.CharField(_("Title"), max_length=255, db_index=True)
 
     site_objects = PostLinkManager()
@@ -306,7 +308,7 @@ class Enclosure(models.Model):
     post = models.ForeignKey("planet.Post")
     length = models.CharField(_("Length"), max_length=20)
     mime_type = models.CharField(_("MIME type"), max_length=50, db_index=True)
-    link = models.URLField(_("Url"), max_length=500, db_index=True)
+    link = models.URLField(_("Url"), db_index=True, max_length=URL_MAX_LENGTH)
 
     site_objects = EnclosureManager()
     objects = models.Manager()
