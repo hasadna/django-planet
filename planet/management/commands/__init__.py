@@ -36,6 +36,7 @@ def process_feed(feed_url, create=False):
         if tag.endswith("-"):
             tag = tag[:-1]
         tag = tag.strip()
+        tag = tag.replace('"',"''")
         return tag
 
     try:
@@ -158,7 +159,7 @@ def process_feed(feed_url, create=False):
                     date_modified = datetime.fromtimestamp(
                         time.mktime(date_modified))
                 except Exception:
-                    date_modified = None
+                    date_modified = datetime.now()
 
                 try:
                     if len(Post.objects.filter(url=url, guid=guid)):
