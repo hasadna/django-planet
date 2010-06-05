@@ -145,6 +145,10 @@ def tags_cloud(request, min_posts_count=1):
     tags_cloud = Tag.objects.cloud_for_model(Post)
     if request.GET.get('sort') == 'size':
         tags_cloud.sort(key=lambda x:x.font_size, reverse=True)
+    if request.GET.get('paginate') == '0':
+        tags_cloud.sort(key=lambda x:x.font_size, reverse=True)
+        tags_cloud = tags_cloud[:200]
+        tags_cloud.sort(key=lambda x:x.name)
 
     return render_to_response("planet/tags/cloud.html",
         {"tags_cloud": tags_cloud}, context_instance=RequestContext(request))
