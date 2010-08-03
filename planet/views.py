@@ -143,14 +143,14 @@ def tag_feeds_list(request, tag):
 def tags_cloud(request, min_posts_count=1):
 
     tags_cloud = Tag.objects.cloud_for_model(Post)
+    def get_font_size(x):
+        try:
+            return x.font_size
+        except:
+            return 0
     if request.GET.get('sort') == 'size':
-        tags_cloud.sort(key=lambda x:x.font_size, reverse=True)
+        tags_cloud.sort(key=get_font_size, reverse=True)
     if request.GET.get('paginate') == '0':
-        def get_font_size(x):
-            try:
-                return x.font_size
-            except:
-                return 0
         tags_cloud.sort(key=get_font_size, reverse=True)
         tags_cloud = tags_cloud[:200]
         tags_cloud.sort(key=lambda x:x.name)
