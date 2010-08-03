@@ -146,7 +146,12 @@ def tags_cloud(request, min_posts_count=1):
     if request.GET.get('sort') == 'size':
         tags_cloud.sort(key=lambda x:x.font_size, reverse=True)
     if request.GET.get('paginate') == '0':
-        tags_cloud.sort(key=lambda x:x.font_size, reverse=True)
+        def get_font_size(x):
+            try:
+                return x.font_size
+            except:
+                return 0
+        tags_cloud.sort(key=get_font_size, reverse=True)
         tags_cloud = tags_cloud[:200]
         tags_cloud.sort(key=lambda x:x.name)
 
