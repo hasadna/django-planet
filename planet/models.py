@@ -228,7 +228,7 @@ class Post(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-            return ('plant.views.post_detail', [str(self.id)])
+            return ('planet.views.post_detail', [str(self.id)])
 
 # each Post object now will have got a .tags attribute!
 tagging.register(Post)
