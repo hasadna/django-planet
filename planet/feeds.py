@@ -56,7 +56,7 @@ class PostFeed(BasePostFeed):
         return reverse('posts_list')
 
     def items(self):
-        posts_list = Post.objects.order_by("-date_created").filter(feed__site=self.site)[:ITEMS_PER_FEED]
+        posts_list = Post.objects.order_by("-date_created")[:ITEMS_PER_FEED]
         return posts_list
 
 class AuthorFeed(BasePostFeed):

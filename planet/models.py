@@ -226,6 +226,10 @@ class Post(models.Model):
     def __unicode__(self):
         return u"%s [%s]" % (self.title, self.feed.title)
 
+    @models.permalink
+    def get_absolute_url(self):
+            return ('plant.views.post_detail', [str(self.id)])
+
 # each Post object now will have got a .tags attribute!
 tagging.register(Post)
 
