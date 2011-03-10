@@ -1,13 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import os
-from datetime import datetime
-
-from django.http import HttpResponse
-from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.shortcuts import get_object_or_404, Http404
-from django.template.defaultfilters import linebreaks, escape, capfirst
+from django.template.defaultfilters import linebreaks, escape
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.syndication.views import Feed
 from django.contrib.sites.models import Site
@@ -22,22 +17,23 @@ class BasePostFeed(Feed):
     def __init__(self, *args, **kwargs):
         super(BasePostFeed, self).__init__(*args, **kwargs)
         self.site = Site.objects.get(pk=settings.SITE_ID)
-        
+
     def item_id(self, post):
         return post.guid
-    
+
     def item_title(self, post):
         return post.title
-    
+
     def item_updated(self, post):
         return post.date_modified
-    
+
     def item_published(self, post):
         return post.date_created
-    
-    def item_content(self, post):
-        return {"type" : "html", }, linebreaks(escape(post.content))
-    
+
+    def item_description(self, post):
+        # return {"type" : "html", }, linebreaks(escape(post.content))
+        return linebreaks(escape(post.content))
+
     def item_links(self, post):
         return [{"href" : reverse("post_detail", args=( post.pk,))}]
     
