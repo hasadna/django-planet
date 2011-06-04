@@ -131,7 +131,7 @@ class Feed(models.Model):
         verbose_name_plural = _("Feeds")
         ordering = ('title', 'url',)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if not self.blog:
             self.modified = self.etag = None
 
@@ -170,7 +170,7 @@ class Feed(models.Model):
                     version=generator_dict.get("version"))
             else:
                 self.generator = None
-        super(Feed, self).save()
+        super(Feed, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return u'%s (%s)' % (self.title, self.url)
